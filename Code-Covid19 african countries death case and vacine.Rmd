@@ -1,0 +1,327 @@
+---
+title: "Covid-19 in African Countries"
+author: "Jackeline Romio"
+date: "13/05/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+#I will analyze the trends about covid-19 deaths cases and imunization from april 2020 to march 2022, in African countries.
+```{r, echo=FALSE}
+#install.packages("devtools")
+#devtools::install_github("RamiKrispin/coronavirus")
+library(ggplot2)
+library(patchwork)
+library(lubridate)
+library(zoo)
+library(dplyr)
+library(coronavirus)
+#update_dataset() #extint
+```
+
+```{r}
+data(coronavirus)
+head(coronavirus)
+```
+#Total de casos período 
+#Cases confirmed
+#Eastern Africa 1 
+
+```{r}
+weekly=coronavirus%>%filter(type=="confirmed", country %in% c("Ethiopia", "Tanzania", "Kenya", "Uganda", "Mozambique", "Madagascar", "Malawi", "Zambia", "Somalia", "Zimbabwe"))%>%
+  mutate(date=as.Date(date), weeks = floor_date(date, "weeks"))%>%group_by(country,weeks)%>%
+  summarise(weekly_cases=sum(cases), avg_daily=round(sum(cases)/length(unique(date))))%>%rename(Country=country)
+
+ggplot(data = weekly, aes(x=weeks, y=avg_daily, col=Country))+geom_line()+geom_point()+ylab("Weekly confirmed cases")+theme_minimal()
+```
+
+#Eastern Africa 2
+
+```{r}
+weekly=coronavirus%>%filter(type=="confirmed", country %in% c("Rwanda", "Burundi", "South Sudan", "Eritrea", "Mauritius", "Djibouti", "Comoros", "Seychelles"))%>%
+  mutate(date=as.Date(date), weeks = floor_date(date, "weeks"))%>%group_by(country,weeks)%>%
+  summarise(weekly_cases=sum(cases), avg_daily=round(sum(cases)/length(unique(date))))%>%rename(Country=country)
+
+ggplot(data = weekly, aes(x=weeks, y=avg_daily, col=Country))+geom_line()+geom_point()+ylab("Weekly confirmed cases")+theme_minimal()
+```
+
+
+#Middle Africa
+
+```{r}
+weekly=coronavirus%>%filter(type=="confirmed", country %in% c("DR Congo", "Angola", "Cameroon", "Chad", "Congo", "Central African Republic", "Gabon", "Equatorial Guinea", "Sao Tome and Principe"))%>%
+  mutate(date=as.Date(date), weeks = floor_date(date, "weeks"))%>%group_by(country,weeks)%>%
+  summarise(weekly_cases=sum(cases), avg_daily=round(sum(cases)/length(unique(date))))%>%rename(Country=country)
+
+ggplot(data = weekly, aes(x=weeks, y=avg_daily, col=Country))+geom_line()+geom_point()+ylab("Weekly confirmed cases")+theme_minimal()
+```
+
+
+#Northern Africa
+
+```{r}
+weekly=coronavirus%>%filter(type=="confirmed", country %in% c("Egypt", "Sudan", "Algeria", "Morocco", "Tunisia", "Libya"))%>%
+  mutate(date=as.Date(date), weeks = floor_date(date, "weeks"))%>%group_by(country,weeks)%>%
+  summarise(weekly_cases=sum(cases), avg_daily=round(sum(cases)/length(unique(date))))%>%rename(Country=country)
+
+ggplot(data = weekly, aes(x=weeks, y=avg_daily, col=Country))+geom_line()+geom_point()+ylab("Weekly confirmed cases")+theme_minimal()
+```
+
+#Southern Africa
+
+```{r}
+weekly=coronavirus%>%filter(type=="confirmed", country %in% c("South Africa", "Botswana", "Namibia", "Lesotho", "Eswatini"))%>%
+  mutate(date=as.Date(date), weeks = floor_date(date, "weeks"))%>%group_by(country,weeks)%>%
+  summarise(weekly_cases=sum(cases), avg_daily=round(sum(cases)/length(unique(date))))%>%rename(Country=country)
+
+ggplot(data = weekly, aes(x=weeks, y=avg_daily, col=Country))+geom_line()+geom_point()+ylab("Weekly confirmed cases")+theme_minimal()
+```
+
+
+#Western Africa 1
+
+```{r}
+weekly=coronavirus%>%filter(type=="confirmed", country %in% c("Nigeria", "Ghana", "Côte d'Ivoire", "Niger", "Mali", "Burkina Faso", "Senegal", "Guinea"))%>%
+  mutate(date=as.Date(date), weeks = floor_date(date, "weeks"))%>%group_by(country,weeks)%>%
+  summarise(weekly_cases=sum(cases), avg_daily=round(sum(cases)/length(unique(date))))%>%rename(Country=country)
+
+ggplot(data = weekly, aes(x=weeks, y=avg_daily, col=Country))+geom_line()+geom_point()+ylab("Weekly confirmed cases")+theme_minimal()
+```
+
+#Western Africa 2
+
+```{r}
+weekly=coronavirus%>%filter(type=="confirmed", country %in% c("Benin", "Togo", "Sierra Leone", "Liberia", "Mauritania", "Gambia", "Guinea-Bissau", "Cabo Verde"))%>%
+  mutate(date=as.Date(date), weeks = floor_date(date, "weeks"))%>%group_by(country,weeks)%>%
+  summarise(weekly_cases=sum(cases), avg_daily=round(sum(cases)/length(unique(date))))%>%rename(Country=country)
+
+ggplot(data = weekly, aes(x=weeks, y=avg_daily, col=Country))+geom_line()+geom_point()+ylab("Weekly confirmed cases")+theme_minimal()
+```
+
+
+
+
+
+
+
+#Deaths
+
+
+#Eastern African 1
+
+
+```{r}
+weekly=coronavirus%>%filter(type=="death", country %in% c("Ethiopia", "Tanzania", "Kenya", "Uganda", "Mozambique", "Madagascar", "Zambia", "Somalia", "Zimbabwe"))%>%
+  mutate(date=as.Date(date), weeks = floor_date(date, "weeks"))%>%group_by(country,weeks)%>%
+  summarise(weekly_cases=sum(cases), avg_daily=round(sum(cases)/length(unique(date))))%>%rename(Country=country)
+
+ggplot(data = weekly, aes(x=weeks, y=avg_daily, col=Country))+geom_line()+geom_point()+ylab("Weekly deaths")+theme_minimal()
+```
+
+
+
+Eastern Africa 2
+
+```{r}
+weekly=coronavirus%>%filter(type=="death", country %in% c("Rwanda", "Burundi", "South Sudan", "Eritrea", "Mauritius", "Djibouti", "Comoros", "Seychelles"))%>%
+  mutate(date=as.Date(date), weeks = floor_date(date, "weeks"))%>%group_by(country,weeks)%>%
+  summarise(weekly_cases=sum(cases), avg_daily=round(sum(cases)/length(unique(date))))%>%rename(Country=country)
+
+ggplot(data = weekly, aes(x=weeks, y=avg_daily, col=Country))+geom_line()+geom_point()+ylab("Weekly deaths")+theme_minimal()
+```
+
+
+Middle Africa
+
+```{r}
+weekly=coronavirus%>%filter(type=="death", country %in% c("DR Congo", "Angola", "Cameroon", "Chad", "Congo", "Central African Republic", "Gabon", "Equatorial Guinea", "Sao Tome and Principe"))%>%
+  mutate(date=as.Date(date), weeks = floor_date(date, "weeks"))%>%group_by(country,weeks)%>%
+  summarise(weekly_cases=sum(cases), avg_daily=round(sum(cases)/length(unique(date))))%>%rename(Country=country)
+
+ggplot(data = weekly, aes(x=weeks, y=avg_daily, col=Country))+geom_line()+geom_point()+ylab("Weekly deaths")+theme_minimal()
+```
+
+
+#Northern Africa
+
+```{r}
+weekly=coronavirus%>%filter(type=="death", country %in% c("Egypt", "Sudan", "Algeria", "Morocco", "Tunisia", "Libya"))%>%
+  mutate(date=as.Date(date), weeks = floor_date(date, "weeks"))%>%group_by(country,weeks)%>%
+  summarise(weekly_cases=sum(cases), avg_daily=round(sum(cases)/length(unique(date))))%>%rename(Country=country)
+
+ggplot(data = weekly, aes(x=weeks, y=avg_daily, col=Country))+geom_line()+geom_point()+ylab("Weekly deaths")+theme_minimal()
+```
+
+#Southern Africa
+
+```{r}
+weekly=coronavirus%>%filter(type=="death", country %in% c("South Africa", "Botswana", "Namibia", "Lesotho", "Eswatini"))%>%
+  mutate(date=as.Date(date), weeks = floor_date(date, "weeks"))%>%group_by(country,weeks)%>%
+  summarise(weekly_cases=sum(cases), avg_daily=round(sum(cases)/length(unique(date))))%>%rename(Country=country)
+
+ggplot(data = weekly, aes(x=weeks, y=avg_daily, col=Country))+geom_line()+geom_point()+ylab("Weekly deaths")+theme_minimal()
+```
+
+#Western Africa 1
+
+```{r}
+weekly=coronavirus%>%filter(type=="death", country %in% c("Nigeria", "Ghana", "Côte d'Ivoire", "Niger", "Mali", "Burkina Faso", "Senegal", "Guinea"))%>%
+  mutate(date=as.Date(date), weeks = floor_date(date, "weeks"))%>%group_by(country,weeks)%>%
+  summarise(weekly_cases=sum(cases), avg_daily=round(sum(cases)/length(unique(date))))%>%rename(Country=country)
+
+ggplot(data = weekly, aes(x=weeks, y=avg_daily, col=Country))+geom_line()+geom_point()+ylab("Weekly deaths")+theme_minimal()
+```
+#Western Africa 2
+
+```{r}
+weekly=coronavirus%>%filter(type=="death", country %in% c("Benin", "Togo", "Sierra Leone", "Liberia", "Mauritania", "Gambia", "Guinea-Bissau", "Cabo Verde"))%>%
+  mutate(date=as.Date(date), weeks = floor_date(date, "weeks"))%>%group_by(country,weeks)%>%
+  summarise(weekly_cases=sum(cases), avg_daily=round(sum(cases)/length(unique(date))))%>%rename(Country=country)
+
+ggplot(data = weekly, aes(x=weeks, y=avg_daily, col=Country))+geom_line()+geom_point()+ylab("Weekly deaths")+theme_minimal()
+```
+
+
+
+
+```{r}
+coronavirus %>%
+filter(type == "death") %>%
+group_by(country) %>%
+summarise(total = sum(cases)) %>%
+arrange(-total) %>%
+print(n = 10)
+```
+
+#, "DR Congo", "Angola", "Cameroon", "Chad", "Congo", "Central African Republic", "Gabon", "Equatorial Guinea", "Sao Tome & Principe", "Egypt", "Sudan", "Algeria", "Morocco", "Tunisia", "Libya", "South Africa", "Botswana", "Namibia", "Lesotho", "Eswatini", "Nigeria", "Ghana", "Côte d'Ivoire", "Niger", "Mali", "Burkina Faso", "Senegal", "Guinea", "Benin", "Togo", "Sierra Leone", "Liberia", "Mauritania", "Gambia", "Guinea-Bissau", "Cabo Verde"
+
+```{r}
+Eastern_Africa1 = coronavirus %>% filter(country %in% c("Ethiopia", "Tanzania", "Kenya", "Uganda", "Mozambique", "Madagascar", "Malawi", "Zambia", "Somalia"), type=="death", date>as.Date("2020-02-1
+5"))%>% group_by(type, country) %>% mutate(
+cumDeaths = cumsum(cases))
+
+ggplot(Eastern_Africa1, aes(x=date, y=cumDeaths)) +
+geom_line(color="red") + facet_wrap(~country, ncol=3, scales="free_y") +
+theme_classic() +
+theme(axis.text.x = element_text(angle = 90)) +
+labs(title="Accumulative Deaths by Covid-19 in Eastern Africa")
+```
+
+
+
+```{r}
+Eastern_Africa2 = coronavirus %>% filter(country %in% c("Zimbabwe", "Rwanda", "Burundi", "South Sudan", "Eritrea", "Mauritius", "Djibouti", "Comoros", "Seychelles"), type=="death", date>as.Date("2020-02-1
+5"))%>% group_by(type, country) %>% mutate(
+cumDeaths = cumsum(cases))
+
+ggplot(Eastern_Africa2, aes(x=date, y=cumDeaths)) +
+geom_line(color="red") + facet_wrap(~country, ncol=3, scales="free_y") +
+theme_classic() +
+theme(axis.text.x = element_text(angle = 90)) + 
+  labs(title="Accumulative Deaths by Covid-19 in Eastern Africa")
+```
+
+
+
+
+
+
+
+
+
+```{r}
+Middle_Africa = coronavirus %>% filter(country %in% c("Democratic Republic of Congo", "Angola", "Cameroon", "Chad", "Congo", "Central African Republic", "Gabon", "Equatorial Guinea", "Sao Tome and Principe"), type=="death", date>as.Date("2020-02-1
+5"))%>% group_by(type, country) %>% mutate(
+cumDeaths = cumsum(cases))
+
+ggplot(Middle_Africa, aes(x=date, y=cumDeaths)) +
+geom_line(color="red") + facet_wrap(~country, ncol=3, scales="free_y") +
+theme_classic() +
+theme(axis.text.x = element_text(angle = 90)) + 
+  labs(title="Accumulative Deaths by Covid-19 in Middle Africa")
+```
+
+
+
+
+```{r}
+Northern_Africa = coronavirus %>% filter(country %in% c("Egypt", "Sudan", "Algeria", "Morocco", "Tunisia", "Libya"), type=="death", date>as.Date("2020-02-1
+5"))%>% group_by(type, country) %>% mutate(
+cumDeaths = cumsum(cases))
+
+ggplot(Northern_Africa, aes(x=date, y=cumDeaths)) +
+geom_line(color="red") + facet_wrap(~country, ncol=3, scales="free_y") +
+theme_classic() +
+theme(axis.text.x = element_text(angle = 90))+ 
+  labs(title="Accumulative Deaths by Covid-19 in Northern Africa")
+```
+
+
+
+```{r}
+Southern_Africa = coronavirus %>% filter(country %in% c("South Africa", "Botswana", "Namibia", "Lesotho", "Eswatini"), type=="death", date>as.Date("2020-02-1
+5"))%>% group_by(type, country) %>% mutate(
+cumDeaths = cumsum(cases))
+
+ggplot(Southern_Africa, aes(x=date, y=cumDeaths)) +
+geom_line(color="red") + facet_wrap(~country, ncol=3, scales="free_y") +
+theme_classic() +
+theme(axis.text.x = element_text(angle = 90))+ 
+  labs(title="Accumulative Deaths by Covid-19 in Southern Africa")
+```
+
+
+```{r}
+Western_Africa = coronavirus %>% filter(country %in% c("Nigeria", "Ghana", "Côte d'Ivoire", "Niger", "Mali", "Burkina Faso", "Senegal", "Guinea"), type=="death", date>as.Date("2020-02-1
+5"))%>% group_by(type, country) %>% mutate(
+cumDeaths = cumsum(cases))
+
+ggplot(Western_Africa, aes(x=date, y=cumDeaths)) +
+geom_line(color="red") + facet_wrap(~country, ncol=3, scales="free_y") +
+theme_classic() +
+theme(axis.text.x = element_text(angle = 90))+ 
+  labs(title="Accumulative Deaths by Covid-19 in Western Africa")
+```
+
+
+```{r}
+Western_Africa2 = coronavirus %>% filter(country %in% c("Benin", "Togo", "Sierra Leone", "Liberia", "Mauritania", "Gambia", "Guinea-Bissau", "Cabo Verde"), type=="death", date>as.Date("2020-02-1
+5"))%>% group_by(type, country) %>% mutate(
+cumDeaths = cumsum(cases))
+
+ggplot(Western_Africa2, aes(x=date, y=cumDeaths)) +
+geom_line(color="red") + facet_wrap(~country, ncol=3, scales="free_y") +
+theme_classic() +
+theme(axis.text.x = element_text(angle = 90)) + 
+  labs(title="Accumulative Deaths by Covid-19 in Western Africa")
+```
+
+
+
+
+US	1123836			
+Brazil	699276			
+India	530779			
+Russia	388478			
+Mexico	333188			
+United Kingdom	220721			
+Peru	219539			
+Italy	188322			
+Germany
+
+```{r}
+Mostlethal = coronavirus %>% filter(country %in% c("US", "Brazil", "India", "Russia", "Mexico", "Peru"), type=="death", date>as.Date("2020-02-1
+5"))%>% group_by(type, country) %>% mutate(
+cumDeaths = cumsum(cases))
+
+ggplot(Mostlethal, aes(x=date, y=cumDeaths)) +
+geom_line(color="red") + facet_wrap(~country, ncol=3, scales="free_y") +
+theme_classic() +
+theme(axis.text.x = element_text(angle = 90)) + 
+  labs(title="Accumulative Deaths by Covid-19 in Most Lethal countries")
+```
